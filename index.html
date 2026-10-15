@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basic Product Training · Jain Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* =====================================================================
+   COLOURS AND BASIC LOOK
+   ===================================================================== */
+:root{
+  --ink:#1D2328;        /* dark text and header */
+  --paper:#F2F0EA;      /* page background */
+  --card:#FBFAF6;       /* cards */
+  --line:#D9D5CA;       /* borders */
+  --band:#E8E5DC;       /* table stripes */
+  --accent:#E8802A;     /* orange */
+  --accent-ink:#A64F08; /* dark orange for text */
+  --muted:#4F5A63;      /* secondary text */
+  --good:#2F7D4F;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:'Public Sans',Arial,sans-serif;font-size:17px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:'Oswald',Arial,sans-serif;font-weight:600;line-height:1.15;margin:0 0 .4em}
+h1{font-size:34px}h2{font-size:28px}h3{font-size:20px}
+p{margin:0 0 .8em}
+a{color:var(--accent-ink)}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+
+/* ---------- header ---------- */
+header.top{position:sticky;top:0;z-index:20;background:var(--ink);color:#F2F0EA;padding:10px 16px;display:flex;align-items:center;gap:12px}
+header.top .brand{flex:1;min-width:0}
+header.top .co{font-family:'Oswald',Arial,sans-serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#F0923F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top .course{font-size:13px;color:#C3CCD2}
+.hbtn{background:transparent;border:1px solid #4A555E;color:#F2F0EA;border-radius:999px;padding:6px 12px;font-size:14px;white-space:nowrap}
+.hbtn:hover{border-color:#F0923F}
+
+/* ---------- progress bar ---------- */
+.progress{background:#fff;border-bottom:1px solid var(--line);padding:8px 16px}
+.progress .label{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.progress .track{height:6px;background:var(--band);border-radius:999px;margin-top:6px;overflow:hidden}
+.progress .fill{height:100%;background:var(--accent);width:0;transition:width .3s}
+
+main{max-width:860px;margin:0 auto;padding:20px 16px 120px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent-ink);margin-bottom:4px}
+.muted{color:var(--muted)}
+
+/* ---------- forms ---------- */
+label{display:block;font-weight:600;margin:14px 0 6px}
+input[type=text],input[type=tel],input[type=search]{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
+input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.err{color:#B3261E;font-size:14px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 20px;font-weight:700;background:var(--accent);color:var(--ink);min-height:48px}
+.btn:hover{filter:brightness(1.05)}
+.btn[disabled]{background:#D3CFC4;color:#6B7178;cursor:not-allowed;filter:none}
+.btn.secondary{background:transparent;border:1px solid var(--ink);color:var(--ink)}
+.btn.dark{background:var(--ink);color:#F2F0EA}
+.btn.block{width:100%}
+
+/* ---------- page content ---------- */
+.video{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius);overflow:hidden;margin:12px 0 16px}
+.video iframe,.video>div{position:absolute;inset:0;width:100%;height:100%}
+.placeholder{display:flex;align-items:center;justify-content:center;text-align:center;color:#C3CCD2;background:var(--ink);padding:20px;border-radius:var(--radius);aspect-ratio:16/9;margin:12px 0 16px}
+.summary h3{margin-top:14px}
+.summary ul{padding-left:22px;margin:0 0 .8em}
+.summary li{margin:4px 0}
+table{border-collapse:collapse;width:100%;margin:8px 0 14px;font-size:16px;background:#fff;border-radius:10px;overflow:hidden}
+th{background:var(--ink);color:#F2F0EA;text-align:left;padding:9px 12px;font-weight:600}
+td{padding:9px 12px;border-top:1px solid var(--line)}
+tr:nth-child(even) td{background:#F6F4EE}
+.tablewrap{overflow-x:auto}
+details.transcript{margin-top:12px}
+details.transcript summary{cursor:pointer;font-weight:600;color:var(--accent-ink)}
+.note{background:#FFF4E8;border:1px solid #F2C9A1;border-radius:10px;padding:10px 14px;font-size:15px;margin-bottom:14px}
+
+/* ---------- bottom navigation ---------- */
+.navbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:15}
+.navbar .inner{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.navbar .hint{flex:1;font-size:14px;color:var(--muted);text-align:center}
+
+/* ---------- contents drawer ---------- */
+.drawer-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:30}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(360px,92vw);background:var(--card);z-index:31;overflow-y:auto;padding:16px;box-shadow:-6px 0 24px rgba(0,0,0,.15)}
+.drawer .sec{font-family:'Oswald',Arial,sans-serif;font-size:16px;margin:16px 0 6px;color:var(--accent-ink)}
+.drawer button.pg{display:flex;width:100%;text-align:left;gap:8px;background:transparent;border:0;border-radius:8px;padding:8px 10px;font-size:15px;color:var(--ink)}
+.drawer button.pg:hover:not([disabled]){background:var(--band)}
+.drawer button.pg[disabled]{color:#9AA0A6;cursor:not-allowed}
+.drawer button.pg.current{background:#FFE9D4;font-weight:700}
+.drawer .mark{width:18px;flex:none;text-align:center}
+
+/* ---------- test ---------- */
+.q{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.q .qn{font-size:13px;font-weight:700;color:var(--accent-ink);letter-spacing:1px;text-transform:uppercase}
+.q .qt{font-weight:600;margin:4px 0 10px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin:6px 0;background:#fff;cursor:pointer;font-weight:400}
+.opt input{margin-top:5px;accent-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:#FFF4E8}
+.seeagain{background:none;border:0;color:var(--accent-ink);text-decoration:underline;padding:6px 0 0;font-size:15px}
+
+/* ---------- completion ---------- */
+.done-wrap{text-align:center}
+.done-wrap canvas{width:100%;max-width:420px;height:auto;border-radius:var(--radius);box-shadow:0 6px 24px rgba(0,0,0,.12);margin:12px auto;display:block}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+
+/* ---------- quick reference ---------- */
+.ref-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.ref-card h3{margin-bottom:6px}
+.faq dt{font-weight:700;margin-top:10px}
+.faq dd{margin:2px 0 0}
+.contact{background:var(--ink);color:#F2F0EA;border-radius:var(--radius);padding:16px;margin-top:16px}
+.contact a{color:#F0923F}
+footer.ver{font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
+
+@media (max-width:520px){
+  body{font-size:16px}
+  h1{font-size:28px}h2{font-size:24px}
+  .card{padding:16px}
+  .navbar .hint{font-size:12px}
+  .btn{padding:12px 14px}
+  /* header: company name on its own line, buttons below it */
+  header.top{flex-wrap:wrap;gap:6px 8px;padding:8px 16px}
+  header.top .brand{flex:1 1 100%}
+  header.top .co{font-size:14px;letter-spacing:1.5px}
+  header.top .course{display:none}
+  .hbtn{padding:4px 12px;font-size:13px}
+  /* tables: tighter on small screens */
+  table{font-size:14.5px}
+  th,td{padding:7px 8px}
+}
+@media print{
+  header.top,.progress,.navbar,.no-print,#refSearch{display:none!important}
+  body{background:#fff}
+  .ref-card{break-inside:avoid;border-color:#bbb}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <div class="co">Jain Wire Netting Corporation</div>
+    <div class="course" id="hdrCourse">Basic Product Training</div>
+  </div>
+  <button class="hbtn hidden" id="btnContents" type="button">Contents</button>
+  <button class="hbtn" id="btnRef" type="button">Quick Reference</button>
+</header>
+
+<div class="progress hidden" id="progress">
+  <div class="label"><span id="progSection"></span><span id="progPage"></span></div>
+  <div class="track"><div class="fill" id="progFill"></div></div>
+</div>
+
+<main id="app"></main>
+
+<div class="navbar hidden" id="navbar">
+  <div class="inner">
+    <button class="btn secondary" id="btnBack" type="button">Back</button>
+    <div class="hint" id="navHint"></div>
+    <button class="btn" id="btnNext" type="button">Next</button>
+  </div>
+</div>
+
+<div class="drawer-bg hidden" id="drawerBg"></div>
+<nav class="drawer hidden" id="drawer" aria-label="Course contents"></nav>
+
+<script>
+/* =====================================================================
+   1. SETTINGS  —  change these
+   ===================================================================== */
+const CONFIG = {
+  VERSION: '1.0',
+  COURSE_TITLE: 'Basic Product Training',
+  COMPANY: 'Jain Wire Netting Corporation',
+
+  // Paste your Google Apps Script web app URL here (ends in /exec).
+  // Leave empty while testing: nothing is sent, the course still works.
+  SHEET_URL: '',
+
+  CONTACT_NAME: 'Paul P S',
+  CONTACT_PHONE: '8075040873',   // used for the call and WhatsApp links
+
+  QUESTIONS_PER_SECTION: 2,      // 2 from each of 5 sections = 10 questions
+  DEFAULT_WAIT: 5                // seconds before Next unlocks on a page without a video
+};
+
+/* =====================================================================
+   2. COURSE CONTENT
+   Each page:
+     id      page number shown to staff ("1.1")
+     section section number (0 = welcome)
+     title   page title
+     video   the YouTube video ID (the part after v= in the link).
+             Leave '' until the clip is ready: the page then shows
+             "Video coming soon" and unlocks after DEFAULT_WAIT seconds.
+     wait    only for pages with no video planned: seconds before Next unlocks
+     transcript  optional text shown under "Read the transcript"
+     html    the page summary shown under the video
+   ===================================================================== */
+const SECTIONS = {
+  0: 'Welcome',
+  1: 'Dimensions',
+  2: 'Weldmesh sheets',
+  3: 'Roll weldmesh',
+  4: 'Chainlink and barbed wire',
+  5: 'GI wire and MS wire'
+};
+
+const PAGES = [
+{ id:'0', section:0, title:'Welcome', noVideo:true, wait:5, html:`
+  <p class="eyebrow">Jain Wire Netting Corporation</p>
+  <h1>Basic Product Training</h1>
+  <p><b>Why this course:</b> Everyone who talks to a customer, takes an order, loads a vehicle or makes a bill should know our products by name and by size. One wrong size on an order means a wrong load and an unhappy customer.</p>
+  <p><b>What you will learn:</b> the measurements we use every day, how market names like "1 x 1" match real sizes, and our main products: weldmesh sheets, roll weldmesh, chainlink, barbed wire, GI wire and MS wire.</p>
+  <p><b>How it works:</b> 5 short sections with 12 short videos and two table pages. Watch each video to unlock the next page. At the end there is one short test of 10 questions. You can always go back to a page you have finished. It takes about 30 minutes.</p>`},
+
+{ id:'1.1', section:1, title:'Length and area: one number each', video:'', html:`
+  <p>Each conversion has <b>one number</b>. Multiply to go one way, divide to come back.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Convert</th><th>Number</th><th>One way: multiply</th><th>Back: divide</th></tr>
+    <tr><td>inch and mm</td><td>25.4</td><td>inch × 25.4 = mm</td><td>mm ÷ 25.4 = inch</td></tr>
+    <tr><td>feet and inch</td><td>12</td><td>feet × 12 = inch</td><td>inch ÷ 12 = feet</td></tr>
+    <tr><td>metre and feet</td><td>3.281</td><td>metre × 3.281 = feet</td><td>feet ÷ 3.281 = metre</td></tr>
+    <tr><td>sq m and sq ft</td><td>10.764</td><td>sq m × 10.764 = sq ft</td><td>sq ft ÷ 10.764 = sq m</td></tr>
+  </table></div>
+  <ul>
+    <li>In the market we round 1 inch to 25 mm.</li>
+    <li>Example: 2 m × 3.281 = 6.56 ft. 10 ft ÷ 3.281 = 3.05 m.</li>
+    <li>Example: a 12 ft × 4 ft sheet = 48 sq ft. 48 ÷ 10.764 = 4.46 sq m.</li>
+  </ul>`},
+
+{ id:'1.2', section:1, title:'Market names vs real size', video:'', html:`
+  <div class="tablewrap"><table>
+    <tr><th>Market name</th><th>Real mesh</th><th>Real size in inches</th></tr>
+    <tr><td>1 x 1</td><td>40 x 40 mm</td><td>about 1.5 inch</td></tr>
+    <tr><td>2 x 2</td><td>65 x 65 mm</td><td>about 2.5 inch</td></tr>
+    <tr><td>1/2 x 1/2</td><td>17 x 17 mm</td><td>about 0.7 inch</td></tr>
+  </table></div>
+  <ul>
+    <li>The market name is a trade name, not a measurement.</li>
+    <li>Always write the mm size on orders and bills.</li>
+  </ul>`},
+
+{ id:'2.1', section:2, title:'What a weldmesh sheet is', video:'', html:`
+  <ul>
+    <li>A flat, stiff panel of steel wire, welded at every crossing.</li>
+    <li>Fixed length: <b>12 ft</b> (3.66 m).</li>
+    <li>Normal widths: <b>4 ft and 5 ft</b>.</li>
+    <li>Special widths: <b>3 ft and 6 ft</b>.</li>
+  </ul>`},
+
+{ id:'2.2', section:2, title:'Sheet sizes and the item name', video:'', html:`
+  <div class="tablewrap"><table>
+    <tr><th>Market name</th><th>Mesh</th></tr>
+    <tr><td>25x25 or 1x1 pakka</td><td>25 x 25 mm</td></tr>
+    <tr><td>1 x 1</td><td>40 x 40 mm</td></tr>
+    <tr><td>2 x 2</td><td>65 x 65 mm</td></tr>
+  </table></div>
+  <p>What customers call the sheet weldmesh, and what it really is:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Called</th><th>Actual wire thickness used</th></tr>
+    <tr><td>4 mm</td><td>3.2 mm</td></tr>
+    <tr><td>4 mm lite</td><td>3.0 mm</td></tr>
+    <tr><td>5 mm</td><td>4.1 mm</td></tr>
+    <tr><td>5 mm lite</td><td>3.8 mm</td></tr>
+    <tr><td>6 mm</td><td>4.8 mm</td></tr>
+    <tr><td>6 mm lite</td><td>4.4 mm</td></tr>
+    <tr><td>6 mm heavy</td><td>5.2 mm</td></tr>
+    <tr><td>7 mm</td><td>6.8 mm</td></tr>
+  </table></div>
+  <p><b>Reading an item name:</b> 40x40x3.2mmx12x4 = mesh 40 x 40 mm, wire 3.2 mm, 12 ft long, 4 ft wide.</p>`},
+
+{ id:'2.3', section:2, title:'Diamond sheets', noVideo:true, wait:10, html:`
+  <p>Diamond-pattern sheets are <b>bought from outside suppliers</b>. We do not make them.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Mesh</th><th>Wire</th></tr>
+    <tr><td>40 x 40</td><td>3.2 mm, 4.1 mm</td></tr>
+    <tr><td>65 x 65</td><td>3.2 mm, 4.1 mm, 5.5 mm</td></tr>
+  </table></div>`},
+
+{ id:'3.1', section:3, title:'What a roll is', video:'', html:`
+  <ul>
+    <li>Lighter welded mesh, wound into a roll.</li>
+    <li>Common length: <b>50 ft</b> (about 15 m).</li>
+    <li>Common heights: <b>3, 4 and 5 ft</b>.</li>
+    <li>Special heights: <b>2 and 6 ft</b>.</li>
+  </ul>`},
+
+{ id:'3.2', section:3, title:'Normal roll sizes', video:'', html:`
+  <ul>
+    <li>Our normal rolls run from <b>25x25x2.2mm</b> up to <b>65x65x3mm</b>.</li>
+  </ul>
+  <p>3 ft rolls in 1 x 1 (40x40), 1 x 1/2 (40x20), 2 x 2 (65x65) and 25x25 come in 10g and 8g:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Called</th><th>Actual wire</th></tr>
+    <tr><td>10g</td><td>2.2 mm</td></tr>
+    <tr><td>8g, in 65x65</td><td>3 mm</td></tr>
+    <tr><td>8g, in other meshes</td><td>2.8 mm</td></tr>
+  </table></div>`},
+
+{ id:'3.3', section:3, title:'Half-inch rolls (17 x 17) and lite', video:'', html:`
+  <ul>
+    <li>Half-inch means <b>17 x 17 mm</b> mesh.</li>
+    <li>Wire from 1 mm up to 2.3 mm.</li>
+    <li>A lite roll shows two wire sizes: the name size / the actual wire.</li>
+    <li>17x17x2mm/1.8mm is called <b>10g lite</b>.</li>
+    <li>17x17x2.3mm/2mm is called <b>8g lite</b>.</li>
+  </ul>`},
+
+{ id:'3.4', section:3, title:'Rolls we distribute (not made by us)', noVideo:true, wait:5, html:`
+  <p>We buy these rolls in and sell them on. We do not make them.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Mesh</th><th>Wire</th></tr>
+    <tr><td>12 x 12</td><td>1 mm, 1.6 mm</td></tr>
+    <tr><td>6 x 6</td><td>1 mm, 1.6 mm</td></tr>
+  </table></div>`},
+
+{ id:'4.1', section:4, title:'Chainlink', video:'', html:`
+  <ul>
+    <li>Woven diamond mesh, sold in rolls.</li>
+    <li>Made in plain (sada) GI, Tata, Supreme or PVC, and customised to the customer's needs.</li>
+  </ul>
+  <div class="tablewrap"><table>
+    <tr><th>Type</th><th>Standard (mesh, wire)</th><th>By special request</th></tr>
+    <tr><td>Plain GI, Tata, Supreme</td><td>65 x 65, in 2.5, 3 or 4 mm</td><td>50 x 50, 40 x 40, 25 x 25 mesh</td></tr>
+    <tr><td>PVC</td><td>65 x 65, in 3 mm</td><td>4, 5 and 5.5 mm wire; the same mesh sizes as GI</td></tr>
+  </table></div>`},
+
+{ id:'4.2', section:4, title:'Barbed wire', video:'', html:`
+  <ul>
+    <li>Two twisted line wires with sharp barbs at fixed gaps.</li>
+    <li>Made in plain (sada) GI, Tata and Supreme.</li>
+    <li>Sizes: <b>14x14</b> uses 14g wire (2 mm). <b>12x12</b> uses 12g wire (2.5 mm).</li>
+    <li>Sold as rolls, often by weight.</li>
+    <li>Used for farm, plot boundary and security fencing.</li>
+    <li>Always handle it with gloves.</li>
+  </ul>`},
+
+{ id:'5.1', section:5, title:'GI wire', video:'', html:`
+  <ul>
+    <li>GI means galvanised iron: steel wire with a zinc coat against rust.</li>
+    <li>A <b>bigger gauge number means a thinner wire</b>.</li>
+  </ul>
+  <div class="tablewrap"><table>
+    <tr><th>Gauge</th><th>Diameter</th></tr>
+    <tr><td>6g</td><td>5 mm / 4.8 mm</td></tr>
+    <tr><td>8g</td><td>4.0 mm</td></tr>
+    <tr><td>10g</td><td>3.2 mm</td></tr>
+    <tr><td>12g</td><td>2.5 mm</td></tr>
+    <tr><td>14g</td><td>2.0 mm</td></tr>
+    <tr><td>16g</td><td>1.6 mm</td></tr>
+    <tr><td>18g</td><td>1.3 mm</td></tr>
+    <tr><td>20g</td><td>1.0 mm</td></tr>
+    <tr><td>22g</td><td>0.7 mm</td></tr>
+    <tr><td>24g</td><td>0.56 mm</td></tr>
+  </table></div>
+  <ul><li>Tata and Supreme GI wire is available from 1.6 mm to 4.8 mm.</li></ul>`},
+
+{ id:'5.2', section:5, title:'MS wire', video:'', html:`
+  <ul>
+    <li>MS means mild steel: plain black wire with no coating.</li>
+    <li>Sold by weight in kg, in coils or bundles. Size by gauge or mm.</li>
+    <li>Used for tying, binding and fabrication.</li>
+  </ul>`},
+
+{ id:'5.3', section:5, title:'First Wire: our new MS wire brand', video:'', html:`
+  <ul>
+    <li>Comes in a box of <b>5 bundles, 5 kg each</b>: 25 kg a box.</li>
+    <li>A darker finish than other brands, even Tata.</li>
+    <li>Easy to sell: a customer can buy a single 5 kg bundle.</li>
+    <li>The box and the inner cover keep moisture out, so the wire stays rust-free for longer.</li>
+  </ul>`}
+];
+
+/* =====================================================================
+   3. QUESTION BANK  (answer = number of the correct option, 0 = first)
+   The test takes QUESTIONS_PER_SECTION at random from each section.
+   ===================================================================== */
+const QUESTIONS = [
+// Section 1
+{s:1,page:'1.1',q:'How many mm is 3 inch?',o:['75','76.2','30','36'],a:1},
+{s:1,page:'1.1',q:'How many inches are in 5 ft?',o:['50','60','15','65'],a:1},
+{s:1,page:'1.1',q:'A customer asks for 3 m. How many feet is that?',o:['9.84','0.91','3.28','6.56'],a:0},
+{s:1,page:'1.1',q:'How many metres is 20 ft?',o:['65.6','6.10','6.56','3.05'],a:1},
+{s:1,page:'1.1',q:'To change feet into metres, you:',o:['multiply by 3.281','divide by 3.281','multiply by 12','divide by 25.4'],a:1},
+{s:1,page:'1.1',q:'A 12 ft × 5 ft sheet is how many sq m?',o:['60','5.57','4.46','6.46'],a:1},
+{s:1,page:'1.1',q:'How many mm is 4 ft?',o:['1000','1219','1200','400'],a:1},
+{s:1,page:'1.1',q:'A customer asks for 6 m. How many feet is that?',o:['1.83','19.69','18','6.56'],a:1},
+{s:1,page:'1.2',q:'A customer says "2 x 2". What do you write?',o:['50x50','25x25','65x65','40x40'],a:2},
+{s:1,page:'1.2',q:'What is the real mesh of 1/2 x 1/2?',o:['12x12','17x17','13x13','25x25'],a:1},
+{s:1,page:'1.2',q:'What is the real mesh of a "1 x 1" sheet?',o:['25 x 25','40 x 40','50 x 50','65 x 65'],a:1},
+// Section 2
+{s:2,page:'2.1',q:'What is the fixed length of a weldmesh sheet?',o:['10 ft','12 ft','15 ft','50 ft'],a:1},
+{s:2,page:'2.1',q:'Which sheet widths are normal?',o:['3 and 6 ft','4 and 5 ft','2 and 3 ft','6 and 8 ft'],a:1},
+{s:2,page:'2.1',q:'Which sheet widths are special?',o:['4 and 5 ft','3 and 6 ft','2 and 6 ft','5 and 6 ft'],a:1},
+{s:2,page:'2.2',q:'In 40x40x3.2mmx12x5, what is the width?',o:['40 mm','3.2 mm','12 ft','5 ft'],a:3},
+{s:2,page:'2.2',q:'In 65x65x4.8mmx12x5, what is 4.8 mm?',o:['The mesh','The wire thickness','The width','The length'],a:1},
+{s:2,page:'2.2',q:'A customer asks for a 1 x 1 sheet in 4 mm. What is the actual wire?',o:['4 mm','3.2 mm','3.0 mm','4.1 mm'],a:1},
+{s:2,page:'2.2',q:'A customer asks for a 6 mm sheet. What is the actual wire?',o:['6 mm','5.2 mm','4.8 mm','4.4 mm'],a:2},
+{s:2,page:'2.2',q:'What is a "1x1 pakka" sheet?',o:['40 x 40','25 x 25','17 x 17','65 x 65'],a:1},
+{s:2,page:'2.3',q:'Diamond sheets are:',o:['made in our factory','a kind of roll','bought from outside','chainlink'],a:2},
+{s:2,page:'2.3',q:'Which wire sizes do we have in 65 x 65 diamond sheets?',o:['3.2 and 4.1 mm only','3.2, 4.1 and 5.5 mm','3 to 6.8 mm','5.5 mm only'],a:1},
+// Section 3
+{s:3,page:'3.1',q:'What is the common length of a roll?',o:['12 ft','50 ft','100 ft','25 ft'],a:1},
+{s:3,page:'3.1',q:'50 ft is about how many metres?',o:['164','15','50','20'],a:1},
+{s:3,page:'3.1',q:'Which roll heights are special?',o:['3 and 4 ft','2 and 6 ft','4 and 5 ft','3 and 5 ft'],a:1},
+{s:3,page:'3.1',q:'A 50 ft × 4 ft roll covers how many sq m?',o:['200','18.58','21.5','13.94'],a:1},
+{s:3,page:'3.2',q:'What is the range of our normal rolls?',o:['25x25x2.2mm to 65x65x3mm','17x17x1mm to 17x17x2.3mm','40x40x3mm to 40x40x4.8mm','12x12x1mm to 12x12x1.6mm'],a:0},
+{s:3,page:'3.2',q:'In a 3 ft roll, what is the actual wire of 10g?',o:['3.2 mm','2.2 mm','2.8 mm','1.8 mm'],a:1},
+{s:3,page:'3.2',q:'In a 65x65 roll, what is the actual wire of 8g?',o:['4.0 mm','2.8 mm','3 mm','2.2 mm'],a:2},
+{s:3,page:'3.3',q:'What mesh is a half-inch roll?',o:['12x12','25x25','17x17','6x6'],a:2},
+{s:3,page:'3.3',q:'What is 17x17x2mm/1.8mm called?',o:['10g lite','8g lite','12g','10g heavy'],a:0},
+{s:3,page:'3.3',q:'Which roll is called 8g lite?',o:['17x17x2mm/1.8mm','17x17x2.3mm/2mm','17x17x1mm','12x12x1.6mm'],a:1},
+{s:3,page:'3.3',q:'In 17x17x2.3mm/2mm, what is the actual wire?',o:['2.3 mm','2 mm','17 mm','4.3 mm'],a:1},
+{s:3,page:'3.4',q:'Which rolls do we distribute but not make?',o:['25x25','65x65','12x12 and 6x6','17x17'],a:2},
+// Section 4
+{s:4,page:'4.1',q:'What is standard chainlink in GI, Tata or Supreme?',o:['65 x 65 in 2.5, 3 or 4 mm','50 x 50 in 3 mm','40 x 40 only','25 x 25 only'],a:0},
+{s:4,page:'4.1',q:'What is standard PVC chainlink?',o:['65 x 65 in 4 mm','65 x 65 in 3 mm','50 x 50 in 3 mm','65 x 65 in 5.5 mm'],a:1},
+{s:4,page:'4.1',q:'A customer wants 40 x 40 chainlink. What do you say?',o:['We cannot make it','It is a special request','Only in PVC','It is always in stock'],a:1},
+{s:4,page:'4.2',q:'Which barbed wire sizes do we sell?',o:['10x10 and 8x8','14x14 and 12x12','16x16 only','65x65'],a:1},
+{s:4,page:'4.2',q:'Which makes of barbed wire do we sell?',o:['PVC only','Plain GI, Tata and Supreme','MS only','Tata only'],a:1},
+{s:4,page:'4.2',q:'What wire does 14x14 barbed wire use?',o:['14g, 2 mm','12g, 2.5 mm','14 mm','10g, 3.2 mm'],a:0},
+// Section 5
+{s:5,page:'5.1',q:'Which wire is thinner, 10g or 16g?',o:['10g','16g','They are the same','It depends on the brand'],a:1},
+{s:5,page:'5.1',q:'Which GI wire is thicker, 8g or 14g?',o:['8g','14g','They are the same','It depends on the brand'],a:0},
+{s:5,page:'5.1',q:'What is the diameter of 12g GI wire?',o:['3.2 mm','2.5 mm','2.0 mm','1.6 mm'],a:1},
+{s:5,page:'5.1',q:'What is 6g GI wire?',o:['5 mm / 4.8 mm','4.0 mm','6 mm','3.2 mm'],a:0},
+{s:5,page:'5.1',q:'What size range does Tata and Supreme GI wire come in?',o:['0.7 to 5 mm','1.6 to 4.8 mm','2.5 to 4 mm','1 to 2.3 mm'],a:1},
+{s:5,page:'5.2',q:'What is MS wire?',o:['Zinc-coated wire','Plain black wire with no coating','PVC-coated wire','Used only for mesh'],a:1},
+{s:5,page:'5.3',q:'What is in a First Wire box?',o:['One 25 kg coil','5 bundles of 5 kg','10 bundles of 2.5 kg','5 bundles of 10 kg'],a:1},
+{s:5,page:'5.3',q:'How much does one First Wire bundle weigh?',o:['25 kg','5 kg','10 kg','1 kg'],a:1},
+{s:5,page:'5.3',q:'Why does First Wire stay rust-free for longer?',o:['It has a zinc coat','The box and inner cover keep moisture out','It has a PVC coat','The wire is thicker'],a:1}
+];
+
+/* =====================================================================
+   4. QUICK REFERENCE  —  frequently asked questions
+   ===================================================================== */
+const FAQ = [
+['What does "1 x 1" mean?','It is a market name for 40 x 40 mm mesh. "2 x 2" is 65 x 65 mm and "1/2 x 1/2" is 17 x 17 mm. Always write the mm size.'],
+['What is "1x1 pakka"?','A 25 x 25 mm sheet.'],
+['How do I change metres to feet?','Multiply by 3.281. To change feet to metres, divide by 3.281.'],
+['How do I change sq ft to sq m?','Divide by 10.764. To change sq m to sq ft, multiply by 10.764.'],
+['How do I change inch to mm?','Multiply by 25.4. In the market we round 1 inch to 25 mm.'],
+['How long is a sheet? How long is a roll?','A sheet is always 12 ft long. A roll is usually 50 ft (about 15 m).'],
+['What does "lite" mean?','The actual wire is thinner than the name. A lite roll shows both: name size / actual wire, for example 17x17x2.3mm/2mm.'],
+['Which is thinner, 10g or 16g?','16g. A bigger gauge number means a thinner wire.'],
+['Do we make diamond sheets, or 12x12 and 6x6 rolls?','No. We buy them in from outside and sell them on.'],
+['What is in a First Wire box?','5 bundles of 5 kg each, 25 kg a box.']
+];
+
+/* =====================================================================
+   5. APP CODE  —  you normally do not need to change below this line
+   ===================================================================== */
+const TEST_INDEX = PAGES.length;          // the final test comes after the last page
+const TOTAL_STEPS = PAGES.length + 1;     // pages + test, for the progress bar
+const STORE_KEY = 'jw_training_v1';
+const QUEUE_KEY = 'jw_training_queue_v1';
+const FAST = !!window.TEST_FAST;          // used only by automated tests
+
+const $ = s => document.querySelector(s);
+const app = $('#app');
+
+/* ---------- safe storage (works even if the browser blocks it) ---------- */
+let memStore = null;
+function loadStore(){
+  try{ const raw = localStorage.getItem(STORE_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return memStore || {last:null, people:{}};
+}
+function saveStore(){
+  memStore = store;
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }catch(e){}
+}
+let store = loadStore();
+let me = null;              // the current person's progress record
+let current = 0;            // the page index on screen
+let reviewFromTest = false; // true when a page is opened with "See again" from the test
+let view = 'start';         // which screen is showing: start, page, test, done, ref
+let viewBeforeRef = 'start';
+
+/* ---------- small helpers ---------- */
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function personKey(name, phone){ return name.trim().toLowerCase().replace(/\s+/g,' ') + '|' + phone.replace(/\D/g,''); }
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pageIndexById(id){ return PAGES.findIndex(p => p.id === id); }
+function doneCount(){ return Object.keys(me.done).length; }
+function isNoVideo(p){ return p.noVideo || !p.video; }   // no video planned, or clip not added yet
+function waitFor(p){ return FAST ? 0 : (p.noVideo ? (p.wait || CONFIG.DEFAULT_WAIT) : CONFIG.DEFAULT_WAIT); }
+
+/* =====================================================================
+   GOOGLE SHEET LOGGING
+   Rows are queued in the browser and sent one by one, so nothing is lost
+   if the phone is offline for a moment.
+   ===================================================================== */
+function loadQueue(){ try{ return JSON.parse(localStorage.getItem(QUEUE_KEY)) || []; }catch(e){ return []; } }
+function saveQueue(q){ try{ localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); }catch(e){} }
+let sending = false;
+
+function logEvent(event, extra){
+  const row = Object.assign({
+    event, name: me.name, phone: me.phone, department: me.dept || '',
+    pagesDone: doneCount(), totalPages: PAGES.length,
+    clientTime: new Date().toISOString(), version: CONFIG.VERSION
+  }, extra || {});
+  const q = loadQueue(); q.push(row); saveQueue(q);
+  if(window.__onLog) window.__onLog(row);   // used only by automated tests
+  flushQueue();
+}
+async function flushQueue(){
+  if(sending || !CONFIG.SHEET_URL) return;
+  sending = true;
+  try{
+    let q = loadQueue();
+    while(q.length){
+      await fetch(CONFIG.SHEET_URL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},  // avoids the browser's extra CORS check
+        body: JSON.stringify(q[0])
+      });
+      q = loadQueue(); q.shift(); saveQueue(q);
+    }
+  }catch(e){ /* offline: try again later */ }
+  sending = false;
+}
+window.addEventListener('online', flushQueue);
+setInterval(flushQueue, 30000);
+
+/* =====================================================================
+   START SCREEN
+   ===================================================================== */
+function showStart(){
+  stopPage();
+  me = null;
+  view = 'start';
+  $('#progress').classList.add('hidden');
+  $('#navbar').classList.add('hidden');
+  $('#btnContents').classList.add('hidden');
+  const last = store.last && store.people[store.last];
+  app.innerHTML = `
+    <div class="card">
+      <p class="eyebrow">${esc(CONFIG.COMPANY)}</p>
+      <h1>${esc(CONFIG.COURSE_TITLE)}</h1>
+      <p class="muted">Enter your details to start. Your progress is saved on this phone or computer.</p>
+      ${last ? `<button class="btn dark block" id="btnResume" type="button">Continue as ${esc(last.name)}</button>
+                <p class="muted" style="text-align:center;margin:12px 0 0">or start as someone else</p>` : ''}
+      <form id="startForm" novalidate>
+        <label for="fName">Name</label>
+        <input type="text" id="fName" autocomplete="name" required>
+        <label for="fPhone">Phone number</label>
+        <input type="tel" id="fPhone" autocomplete="tel" inputmode="numeric" required>
+        <label for="fDept">Department <span class="muted" style="font-weight:400">(optional)</span></label>
+        <input type="text" id="fDept" list="deptList">
+        <datalist id="deptList"><option>Sales</option><option>Office</option><option>Billing</option><option>Dispatch</option><option>Factory</option></datalist>
+        <div class="err" id="startErr"></div>
+        <button class="btn block" type="submit" style="margin-top:18px">Start</button>
+      </form>
+    </div>
+    <footer class="ver">Version ${CONFIG.VERSION}</footer>`;
+  if(last) $('#btnResume').onclick = () => openPerson(store.last);
+  $('#startForm').onsubmit = ev => {
+    ev.preventDefault();
+    const name = $('#fName').value.trim();
+    const phone = $('#fPhone').value.trim();
+    const dept = $('#fDept').value.trim();
+    const digits = phone.replace(/\D/g,'');
+    if(name.length < 2){ $('#startErr').textContent = 'Please enter your name.'; return; }
+    if(digits.length < 10){ $('#startErr').textContent = 'Please enter a 10-digit phone number.'; return; }
+    const key = personKey(name, phone);
+    const isNew = !store.people[key];
+    if(isNew){
+      // A new name (or new phone) always starts from page 1.
+      store.people[key] = { name, phone: digits, dept, started: new Date().toISOString(),
+                            unlocked: 0, done: {}, test: null, completedAt: null };
+    }else if(dept){ store.people[key].dept = dept; }
+    store.last = key; saveStore();
+    openPerson(key, isNew);
+  };
+}
+
+function openPerson(key, isNew){
+  me = store.people[key];
+  store.last = key; saveStore();
+  $('#btnContents').classList.remove('hidden');
+  if(isNew) logEvent('Started');
+  if(me.completedAt){ showDone(); return; }
+  goTo(Math.min(me.unlocked, TEST_INDEX));
+}
+
+/* =====================================================================
+   COURSE PAGES
+   ===================================================================== */
+let player = null, playerTimer = null, waitTimer = null, maxWatched = 0;
+
+function stopPage(){
+  if(playerTimer){ clearInterval(playerTimer); playerTimer = null; }
+  if(waitTimer){ clearInterval(waitTimer); waitTimer = null; }
+  if(player && player.destroy){ try{ player.destroy(); }catch(e){} }
+  player = null;
+}
+
+function goTo(i, opts){
+  opts = opts || {};
+  if(i > me.unlocked) return;               // cannot jump ahead
+  stopPage();
+  current = i;
+  view = i === TEST_INDEX ? 'test' : 'page';
+  reviewFromTest = !!opts.fromTest;
+  closeDrawer();
+  window.scrollTo(0,0);
+  if(i === TEST_INDEX) return showTest();
+  renderPage(PAGES[i]);
+}
+
+function setProgress(label, stepIndex){
+  $('#progress').classList.remove('hidden');
+  $('#progSection').textContent = label;
+  $('#progPage').textContent = `Page ${stepIndex + 1} of ${TOTAL_STEPS}`;
+  $('#progFill').style.width = Math.round(100 * doneCount() / PAGES.length) + '%';
+}
+
+function renderPage(p){
+  const idx = PAGES.indexOf(p);
+  setProgress(p.section === 0 ? 'Welcome' : `Section ${p.section} · ${SECTIONS[p.section]}`, idx);
+  const done = !!me.done[p.id];
+  let media = '';
+  if(!p.noVideo){
+    media = p.video
+      ? `<div class="video"><div id="ytPlayer"></div></div>`
+      : `<div class="placeholder"><div><b>Video coming soon</b><br><span style="font-size:14px">Read the summary below. Next unlocks in a few seconds.</span></div></div>`;
+  }
+  app.innerHTML = `
+    ${reviewFromTest ? `<div class="note">You are looking back at page ${esc(p.id)} for the test. Your answers are kept. <button class="btn dark" id="btnBackToTest" type="button" style="margin-top:8px">Back to the test</button></div>` : ''}
+    <div class="card">
+      ${p.section === 0 ? '' : `<p class="eyebrow">Page ${esc(p.id)}</p><h2>${esc(p.title)}</h2>`}
+      ${media}
+      <div class="summary">${p.html}</div>
+      ${p.transcript ? `<details class="transcript"><summary>Read the transcript</summary><p>${esc(p.transcript)}</p></details>` : ''}
+    </div>`;
+  if(reviewFromTest) $('#btnBackToTest').onclick = () => goTo(TEST_INDEX);
+
+  // Bottom bar
+  $('#navbar').classList.remove('hidden');
+  $('#btnBack').disabled = idx === 0;
+  $('#btnBack').onclick = () => goTo(idx - 1);
+  $('#btnNext').textContent = idx === PAGES.length - 1 ? 'Go to the test' : 'Next';
+  $('#btnNext').onclick = () => { if(me.done[p.id]) goTo(idx + 1); };
+  if(reviewFromTest){ $('#btnNext').textContent = 'Back to the test'; $('#btnNext').onclick = () => goTo(TEST_INDEX); }
+  setNext(done || reviewFromTest, '');
+
+  if(done || reviewFromTest){
+    if(p.video && !p.noVideo) startVideo(p, true);
+    return;
+  }
+  if(p.video && !p.noVideo) startVideo(p, false);
+  else startWait(p);
+}
+
+function setNext(enabled, hint){
+  $('#btnNext').disabled = !enabled;
+  $('#navHint').textContent = hint || '';
+}
+
+/* Mark a page finished: unlock the next one and log it once. */
+function completePage(p){
+  if(me.done[p.id]) return;
+  me.done[p.id] = true;
+  const idx = PAGES.indexOf(p);
+  if(me.unlocked <= idx) me.unlocked = idx + 1;
+  saveStore();
+  setProgress(p.section === 0 ? 'Welcome' : `Section ${p.section} · ${SECTIONS[p.section]}`, idx);
+  logEvent(isNoVideo(p) ? 'Page read' : 'Video watched',
+           {section: p.section ? `${p.section}. ${SECTIONS[p.section]}` : 'Welcome', page: `${p.id} ${p.title}`});
+  if(current === idx) setNext(true, '');
+}
+
+/* Pages without a video: Next unlocks after a short wait (first visit only). */
+function startWait(p){
+  let left = waitFor(p);
+  const tick = () => {
+    if(left <= 0){ clearInterval(waitTimer); waitTimer = null; completePage(p); return; }
+    setNext(false, `Next unlocks in ${left} s`);
+    left--;
+  };
+  tick();
+  if(!me.done[p.id]) waitTimer = setInterval(tick, 1000);
+}
+
+/* ---------- YouTube ---------- */
+let ytReady = null;
+function loadYouTube(){
+  if(ytReady) return ytReady;
+  ytReady = new Promise(resolve => {
+    window.onYouTubeIframeAPIReady = resolve;
+    const s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    s.onerror = () => { $('#navHint').textContent = 'Video could not load. Check the internet connection.'; };
+    document.head.appendChild(s);
+  });
+  return ytReady;
+}
+
+function startVideo(p, alreadyDone){
+  if(!alreadyDone) setNext(false, 'Watch the video to the end to continue');
+  maxWatched = 0;
+  loadYouTube().then(() => {
+    if(PAGES[current] !== p) return;   // the person moved on while loading
+    player = new YT.Player('ytPlayer', {
+      videoId: p.video,
+      playerVars: { rel:0, modestbranding:1, playsinline:1, disablekb:1, cc_load_policy:1 },
+      events: {
+        onStateChange: e => {
+          if(e.data === YT.PlayerState.ENDED) completePage(p);
+        },
+        onError: () => { $('#navHint').textContent = 'This video could not play. Please tell ' + CONFIG.CONTACT_NAME + '.'; }
+      }
+    });
+    // Discourage skipping ahead on a first watch: jump back if they seek forward.
+    if(!alreadyDone){
+      playerTimer = setInterval(() => {
+        if(!player || !player.getCurrentTime) return;
+        const t = player.getCurrentTime();
+        if(t > maxWatched + 2){ player.seekTo(maxWatched, true); }
+        else if(t > maxWatched){ maxWatched = t; }
+      }, 500);
+    }
+  });
+}
+
+/* =====================================================================
+   FINAL TEST
+   ===================================================================== */
+function drawQuestions(){
+  const picked = [];
+  for(let s = 1; s <= 5; s++){
+    const pool = QUESTIONS.map((q, i) => i).filter(i => QUESTIONS[i].s === s);
+    picked.push(...shuffle(pool).slice(0, CONFIG.QUESTIONS_PER_SECTION));
+  }
+  return picked;
+}
+
+function showTest(){
+  if(!me.test || me.test.submitted){
+    me.test = { qids: drawQuestions(), answers: {}, submitted: false };
+    saveStore();
+  }
+  setProgress('Final test', TEST_INDEX);
+  const t = me.test;
+  app.innerHTML = `
+    <div class="card" style="margin-bottom:14px">
+      <p class="eyebrow">Final test</p>
+      <h2>10 questions</h2>
+      <p>Answer every question. If you are not sure, use <b>See again</b> to look back at the page. Your answers are kept while you look.</p>
+    </div>
+    <div id="qs"></div>`;
+  const box = $('#qs');
+  t.qids.forEach((qi, n) => {
+    const q = QUESTIONS[qi];
+    const pg = PAGES[pageIndexById(q.page)];
+    const div = document.createElement('div');
+    div.className = 'q';
+    div.innerHTML = `<div class="qn">Question ${n+1} of ${t.qids.length}</div>
+      <div class="qt">${esc(q.q)}</div>
+      ${q.o.map((opt, k) => `<label class="opt${t.answers[qi]===k?' sel':''}"><input type="radio" name="q${qi}" value="${k}"${t.answers[qi]===k?' checked':''}> <span>${esc(opt)}</span></label>`).join('')}
+      <button class="seeagain" type="button">See again: page ${esc(pg.id)}, ${esc(pg.title)}</button>`;
+    div.querySelectorAll('input').forEach(inp => inp.onchange = () => {
+      t.answers[qi] = Number(inp.value); saveStore();
+      div.querySelectorAll('.opt').forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+      updateSubmit();
+    });
+    div.querySelector('.seeagain').onclick = () => goTo(pageIndexById(q.page), {fromTest:true});
+    box.appendChild(div);
+  });
+
+  $('#navbar').classList.remove('hidden');
+  $('#btnBack').disabled = false;
+  $('#btnBack').onclick = () => goTo(TEST_INDEX - 1);
+  $('#btnNext').textContent = 'Finish';
+  $('#btnNext').onclick = submitTest;
+  updateSubmit();
+}
+
+function updateSubmit(){
+  const t = me.test, n = Object.keys(t.answers).length;
+  const all = n === t.qids.length;
+  setNext(all, all ? 'All answered' : `${n} of ${t.qids.length} answered`);
+}
+
+function submitTest(){
+  const t = me.test;
+  if(Object.keys(t.answers).length < t.qids.length) return;
+  let score = 0;
+  const answers = t.qids.map((qi, n) => {
+    const q = QUESTIONS[qi], chosen = t.answers[qi], right = chosen === q.a;
+    if(right) score++;
+    return { n: n+1, section: q.s, page: q.page, question: q.q, chosen: q.o[chosen], correct: q.o[q.a], right };
+  });
+  t.submitted = true;
+  me.completedAt = new Date().toISOString();
+  me.score = score;
+  saveStore();
+  // The score goes to the Google Sheet only. Staff never see marks.
+  logEvent('Completed', { score: `${score} of ${t.qids.length}`, answers });
+  showDone();
+}
+
+/* =====================================================================
+   COMPLETION
+   ===================================================================== */
+function showDone(){
+  stopPage();
+  view = 'done';
+  $('#navbar').classList.add('hidden');
+  $('#progress').classList.add('hidden');
+  const date = new Date(me.completedAt).toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'});
+  app.innerHTML = `
+    <div class="card done-wrap">
+      <p class="eyebrow">Well done</p>
+      <h1>${esc(me.name)} has completed ${esc(CONFIG.COURSE_TITLE)}</h1>
+      <canvas id="cert" width="1080" height="1350" aria-label="Completion card"></canvas>
+      <div class="btnrow">
+        <button class="btn" id="btnShare" type="button">Share on WhatsApp</button>
+        <button class="btn secondary" id="btnSave" type="button">Save picture</button>
+      </div>
+      <div class="btnrow">
+        <button class="btn secondary" id="btnOpenRef" type="button">Open Quick Reference</button>
+        <button class="btn secondary" id="btnReview" type="button">Look back at the course</button>
+      </div>
+      <p class="muted" id="shareMsg" style="margin-top:12px"></p>
+    </div>`;
+  drawCertificate(date);
+  $('#btnShare').onclick = shareCertificate;
+  $('#btnSave').onclick = () => downloadCertificate();
+  $('#btnOpenRef').onclick = showRef;
+  $('#btnReview').onclick = () => goTo(0);
+}
+
+function drawCertificate(date){
+  const c = $('#cert'), x = c.getContext('2d'), W = c.width, H = c.height;
+  const draw = () => {
+    x.fillStyle = '#F2F0EA'; x.fillRect(0,0,W,H);
+    x.fillStyle = '#1D2328'; x.fillRect(0,0,W,300);
+    x.fillStyle = '#E8802A'; x.fillRect(0,300,W,18);
+    x.textAlign = 'center';
+    x.fillStyle = '#F0923F'; x.font = '600 46px Oswald, Arial';
+    x.fillText('JAIN WIRE NETTING CORPORATION', W/2, 140);
+    x.fillStyle = '#C3CCD2'; x.font = '400 34px "Public Sans", Arial';
+    x.fillText('Training record', W/2, 210);
+    x.fillStyle = '#4F5A63'; x.font = '400 40px "Public Sans", Arial';
+    x.fillText('This is to confirm that', W/2, 470);
+    x.fillStyle = '#1D2328';
+    let size = 96; x.font = `600 ${size}px Oswald, Arial`;
+    while(x.measureText(me.name).width > W - 140 && size > 48){ size -= 4; x.font = `600 ${size}px Oswald, Arial`; }
+    x.fillText(me.name, W/2, 610);
+    x.fillStyle = '#4F5A63'; x.font = '400 40px "Public Sans", Arial';
+    x.fillText('has completed', W/2, 720);
+    x.fillStyle = '#A64F08'; x.font = '600 72px Oswald, Arial';
+    x.fillText(CONFIG.COURSE_TITLE, W/2, 830);
+    if(me.dept){ x.fillStyle = '#4F5A63'; x.font = '400 36px "Public Sans", Arial'; x.fillText(me.dept, W/2, 920); }
+    x.fillStyle = '#1D2328'; x.font = '600 40px "Public Sans", Arial';
+    x.fillText(date, W/2, 1060);
+    x.fillStyle = '#E8802A'; x.fillRect(W/2 - 80, 1120, 160, 10);
+    x.fillStyle = '#4F5A63'; x.font = '400 30px "Public Sans", Arial';
+    x.fillText('Jain Wire Netting Corporation, EKM', W/2, 1230);
+  };
+  draw();                                                   // draw now...
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);  // ...and again once fonts load
+}
+
+function certBlob(){ return new Promise(r => $('#cert').toBlob(r, 'image/png')); }
+function shareText(){ return `${me.name} has completed ${CONFIG.COURSE_TITLE} at ${CONFIG.COMPANY}.`; }
+
+async function shareCertificate(){
+  const blob = await certBlob();
+  const file = new File([blob], 'training-completed.png', {type:'image/png'});
+  // On phones this opens the share sheet with the picture: choose WhatsApp.
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file], text: shareText()}); return; }catch(e){ if(e.name === 'AbortError') return; }
+  }
+  // Computers: save the picture, then open WhatsApp with the message.
+  await downloadCertificate();
+  $('#shareMsg').textContent = 'The picture is saved. Attach it in WhatsApp.';
+  window.open('https://wa.me/?text=' + encodeURIComponent(shareText()), '_blank');
+}
+
+async function downloadCertificate(){
+  const blob = await certBlob();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'training-completed-' + me.name.replace(/[^a-z0-9]+/gi,'-').toLowerCase() + '.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+/* =====================================================================
+   QUICK REFERENCE  —  always open, no login needed
+   ===================================================================== */
+function showRef(){
+  if(view !== 'ref') viewBeforeRef = view;
+  view = 'ref';
+  stopPage();
+  closeDrawer();
+  $('#navbar').classList.add('hidden');
+  $('#progress').classList.add('hidden');
+  const phone = CONFIG.CONTACT_PHONE.replace(/\D/g,'');
+  let cards = '';
+  PAGES.filter(p => p.section > 0).forEach(p => {
+    cards += `<div class="ref-card" data-ref><p class="eyebrow">Section ${p.section} · ${esc(SECTIONS[p.section])}</p>
+      <h3>${esc(p.id)} ${esc(p.title)}</h3><div class="summary">${p.html}</div></div>`;
+  });
+  app.innerHTML = `
+    <div class="no-print" style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn secondary" id="btnRefBack" type="button">${me ? 'Back to the course' : 'Back'}</button>
+      <button class="btn secondary" id="btnPrint" type="button">Download summary (PDF)</button>
+    </div>
+    <h1>Quick Reference</h1>
+    <input type="search" id="refSearch" placeholder="Search, for example: 1 x 1, lite, 3.281, First Wire" aria-label="Search the quick reference">
+    <p class="muted" id="refCount" style="margin:8px 0 14px"></p>
+    <div class="ref-card" data-ref><h3>Frequently asked questions</h3>
+      <dl class="faq">${FAQ.map(([q,a]) => `<div data-faq><dt>${esc(q)}</dt><dd>${esc(a)}</dd></div>`).join('')}</dl></div>
+    ${cards}
+    <div class="contact">Still stuck? Contact <b>${esc(CONFIG.CONTACT_NAME)}</b>:
+      <a href="tel:+91${phone}">${esc(CONFIG.CONTACT_PHONE)}</a> ·
+      <a href="https://wa.me/91${phone}" target="_blank" rel="noopener">WhatsApp</a></div>
+    <footer class="ver">Version ${CONFIG.VERSION}</footer>`;
+  $('#btnRefBack').onclick = () => {
+    if(!me || viewBeforeRef === 'start') return showStart();
+    if(viewBeforeRef === 'done') return showDone();
+    goTo(Math.min(current, me.unlocked), {fromTest: reviewFromTest});
+  };
+  $('#btnPrint').onclick = () => window.print();
+  $('#refSearch').oninput = e => filterRef(e.target.value);
+  filterRef('');
+}
+
+function filterRef(text){
+  const words = text.toLowerCase().split(/\s+/).filter(Boolean);
+  let shown = 0;
+  document.querySelectorAll('[data-faq]').forEach(el => {
+    const ok = words.every(w => el.textContent.toLowerCase().includes(w));
+    el.classList.toggle('hidden', !ok);
+  });
+  document.querySelectorAll('[data-ref]').forEach(el => {
+    const ok = words.every(w => el.textContent.toLowerCase().includes(w));
+    el.classList.toggle('hidden', !ok);
+    if(ok) shown++;
+  });
+  $('#refCount').textContent = words.length ? `${shown} matching section${shown===1?'':'s'}` : '';
+}
+
+/* =====================================================================
+   CONTENTS DRAWER
+   ===================================================================== */
+function openDrawer(){
+  if(!me) return;
+  let html = `<h2 style="font-size:22px">Contents</h2>`;
+  let lastSec = -1;
+  PAGES.forEach((p, i) => {
+    if(p.section !== lastSec){ html += `<div class="sec">${p.section ? 'Section ' + p.section + ': ' : ''}${esc(SECTIONS[p.section])}</div>`; lastSec = p.section; }
+    const open = i <= me.unlocked, mark = me.done[p.id] ? '✓' : (open ? '•' : '🔒');
+    html += `<button class="pg${i===current?' current':''}" data-i="${i}" ${open?'':'disabled'} type="button"><span class="mark">${mark}</span><span>${esc(p.id === '0' ? 'Welcome' : p.id + ' ' + p.title)}</span></button>`;
+  });
+  const testOpen = TEST_INDEX <= me.unlocked;
+  html += `<div class="sec">Final test</div><button class="pg${current===TEST_INDEX?' current':''}" data-i="${TEST_INDEX}" ${testOpen && !me.completedAt ?'':'disabled'} type="button"><span class="mark">${me.completedAt?'✓':(testOpen?'•':'🔒')}</span><span>10 questions</span></button>`;
+  html += `<div style="margin-top:20px;border-top:1px solid var(--line);padding-top:12px">
+    <p class="muted" style="font-size:14px">Signed in as <b>${esc(me.name)}</b></p>
+    <button class="btn secondary block" id="btnSwitch" type="button">Not you? Switch person</button></div>`;
+  const d = $('#drawer'); d.innerHTML = html;
+  d.querySelectorAll('button.pg').forEach(b => b.onclick = () => goTo(Number(b.dataset.i)));
+  $('#btnSwitch').onclick = () => { closeDrawer(); showStart(); };
+  d.classList.remove('hidden'); $('#drawerBg').classList.remove('hidden');
+}
+function closeDrawer(){ $('#drawer').classList.add('hidden'); $('#drawerBg').classList.add('hidden'); }
+
+$('#btnContents').onclick = openDrawer;
+$('#drawerBg').onclick = closeDrawer;
+$('#btnRef').onclick = showRef;
+$('#hdrCourse').textContent = CONFIG.COURSE_TITLE;
+
+/* ---------- go ---------- */
+showStart();
+flushQueue();
+</script>
+</body>
+</html>
