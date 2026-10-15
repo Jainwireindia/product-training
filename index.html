@@ -78,6 +78,9 @@ tr:nth-child(even) td{background:#F6F4EE}
 .tablewrap{overflow-x:auto}
 details.transcript{margin-top:12px}
 details.transcript summary{cursor:pointer;font-weight:600;color:var(--accent-ink)}
+.spin{display:inline-block;width:20px;height:20px;border:3px solid var(--band);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scrollhint{font-weight:600;color:var(--accent-ink)}
 .note{background:#FFF4E8;border:1px solid #F2C9A1;border-radius:10px;padding:10px 14px;font-size:15px;margin-bottom:14px}
 
 /* ---------- bottom navigation ---------- */
@@ -149,7 +152,7 @@ footer.ver{font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
     <div class="course" id="hdrCourse">Basic Product Training</div>
   </div>
   <button class="hbtn hidden" id="btnContents" type="button">Contents</button>
-  <button class="hbtn" id="btnRef" type="button">Quick Reference</button>
+  <button class="hbtn hidden" id="btnRef" type="button">Quick Reference</button>
 </header>
 
 <div class="progress hidden" id="progress">
@@ -175,7 +178,7 @@ footer.ver{font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
    1. SETTINGS  —  change these
    ===================================================================== */
 const CONFIG = {
-  VERSION: '1.0',
+  VERSION: '1.0.1',
   COURSE_TITLE: 'Basic Product Training',
   COMPANY: 'Jain Wire Netting Corporation',
 
@@ -187,7 +190,9 @@ const CONFIG = {
   CONTACT_PHONE: '8075040873',   // used for the call and WhatsApp links
 
   QUESTIONS_PER_SECTION: 2,      // 2 from each of 5 sections = 10 questions
-  DEFAULT_WAIT: 5                // seconds before Next unlocks on a page without a video
+  DEFAULT_WAIT: 5,               // seconds before Next unlocks on a page without a video
+                                 // (staff see only a loading animation, never the seconds)
+  REVIEW_WAIT: 10                // seconds on a "See again" page before "Back to the test" unlocks
 };
 
 /* =====================================================================
@@ -540,6 +545,7 @@ function showStart(){
   $('#progress').classList.add('hidden');
   $('#navbar').classList.add('hidden');
   $('#btnContents').classList.add('hidden');
+  $('#btnRef').classList.add('hidden');      // Quick Reference only after signing in
   const last = store.last && store.people[store.last];
   app.innerHTML = `
     <div class="card">
@@ -586,6 +592,7 @@ function openPerson(key, isNew){
   me = store.people[key];
   store.last = key; saveStore();
   $('#btnContents').classList.remove('hidden');
+  $('#btnRef').classList.remove('hidden');
   if(isNew) logEvent('Started');
   if(me.completedAt){ showDone(); return; }
   goTo(Math.min(me.unlocked, TEST_INDEX));
@@ -594,11 +601,14 @@ function openPerson(key, isNew){
 /* =====================================================================
    COURSE PAGES
    ===================================================================== */
-let player = null, playerTimer = null, waitTimer = null, maxWatched = 0;
+let player = null, playerTimer = null, waitTimer = null, reviewTimer = null, endObserver = null, maxWatched = 0;
+const SPINNER = '<span class="spin" role="status" aria-label="Please wait"></span>';
 
 function stopPage(){
   if(playerTimer){ clearInterval(playerTimer); playerTimer = null; }
-  if(waitTimer){ clearInterval(waitTimer); waitTimer = null; }
+  if(waitTimer){ clearTimeout(waitTimer); waitTimer = null; }
+  if(reviewTimer){ clearTimeout(reviewTimer); reviewTimer = null; }
+  if(endObserver){ endObserver.disconnect(); endObserver = null; }
   if(player && player.destroy){ try{ player.destroy(); }catch(e){} }
   player = null;
 }
@@ -631,7 +641,7 @@ function renderPage(p){
   if(!p.noVideo){
     media = p.video
       ? `<div class="video"><div id="ytPlayer"></div></div>`
-      : `<div class="placeholder"><div><b>Video coming soon</b><br><span style="font-size:14px">Read the summary below. Next unlocks in a few seconds.</span></div></div>`;
+      : `<div class="placeholder"><div><b>Video coming soon</b><br><span style="font-size:14px">Read the summary below, to the end of the page.</span></div></div>`;
   }
   app.innerHTML = `
     ${reviewFromTest ? `<div class="note">You are looking back at page ${esc(p.id)} for the test. Your answers are kept. <button class="btn dark" id="btnBackToTest" type="button" style="margin-top:8px">Back to the test</button></div>` : ''}
@@ -640,8 +650,9 @@ function renderPage(p){
       ${media}
       <div class="summary">${p.html}</div>
       ${p.transcript ? `<details class="transcript"><summary>Read the transcript</summary><p>${esc(p.transcript)}</p></details>` : ''}
+      <div id="pageEnd" style="height:1px"></div>
     </div>`;
-  if(reviewFromTest) $('#btnBackToTest').onclick = () => goTo(TEST_INDEX);
+  if(reviewFromTest) $('#btnBackToTest').onclick = () => { if(!$('#btnBackToTest').disabled) goTo(TEST_INDEX); };
 
   // Bottom bar
   $('#navbar').classList.remove('hidden');
@@ -650,8 +661,14 @@ function renderPage(p){
   $('#btnNext').textContent = idx === PAGES.length - 1 ? 'Go to the test' : 'Next';
   $('#btnNext').onclick = () => { if(me.done[p.id]) goTo(idx + 1); };
   if(reviewFromTest){ $('#btnNext').textContent = 'Back to the test'; $('#btnNext').onclick = () => goTo(TEST_INDEX); }
-  setNext(done || reviewFromTest, '');
+  setNext(done, '');
 
+  if(reviewFromTest){
+    // "See again": stay on the page a while before going back to the test.
+    const b = $('#btnBackToTest'); b.disabled = true;
+    setNext(false, SPINNER);
+    reviewTimer = setTimeout(() => { b.disabled = false; setNext(true, ''); }, FAST ? 0 : CONFIG.REVIEW_WAIT * 1000);
+  }
   if(done || reviewFromTest){
     if(p.video && !p.noVideo) startVideo(p, true);
     return;
@@ -662,7 +679,7 @@ function renderPage(p){
 
 function setNext(enabled, hint){
   $('#btnNext').disabled = !enabled;
-  $('#navHint').textContent = hint || '';
+  $('#navHint').innerHTML = hint || '';   // only fixed text and the spinner go here
 }
 
 /* Mark a page finished: unlock the next one and log it once. */
@@ -678,16 +695,22 @@ function completePage(p){
   if(current === idx) setNext(true, '');
 }
 
-/* Pages without a video: Next unlocks after a short wait (first visit only). */
+/* Pages without a video: the reader must scroll to the end of the page,
+   and a short wait must pass (shown only as a loading animation). */
 function startWait(p){
-  let left = waitFor(p);
-  const tick = () => {
-    if(left <= 0){ clearInterval(waitTimer); waitTimer = null; completePage(p); return; }
-    setNext(false, `Next unlocks in ${left} s`);
-    left--;
+  let waited = false, readToEnd = false;
+  const check = () => {
+    if(me.done[p.id] || PAGES[current] !== p) return;
+    if(waited && readToEnd){ stopPage(); completePage(p); return; }
+    setNext(false, readToEnd ? SPINNER : '<span class="scrollhint">Scroll down and read to the end ↓</span>');
   };
-  tick();
-  if(!me.done[p.id]) waitTimer = setInterval(tick, 1000);
+  waitTimer = setTimeout(() => { waited = true; check(); }, waitFor(p) * 1000);
+  // The end of the page counts as read once it shows above the bottom bar.
+  endObserver = new IntersectionObserver(entries => {
+    if(entries.some(e => e.isIntersecting)){ readToEnd = true; check(); }
+  }, { rootMargin: '0px 0px -90px 0px' });
+  endObserver.observe($('#pageEnd'));
+  check();
 }
 
 /* ---------- YouTube ---------- */
