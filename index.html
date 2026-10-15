@@ -178,7 +178,7 @@ footer.ver{font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
    1. SETTINGS  —  change these
    ===================================================================== */
 const CONFIG = {
-  VERSION: '1.0.1',
+  VERSION: '1.0.15',
   COURSE_TITLE: 'Basic Product Training',
   COMPANY: 'Jain Wire Netting Corporation',
 
@@ -223,7 +223,7 @@ const PAGES = [
   <h1>Basic Product Training</h1>
   <p><b>Why this course:</b> Everyone who talks to a customer, takes an order, loads a vehicle or makes a bill should know our products by name and by size. One wrong size on an order means a wrong load and an unhappy customer.</p>
   <p><b>What you will learn:</b> the measurements we use every day, how market names like "1 x 1" match real sizes, and our main products: weldmesh sheets, roll weldmesh, chainlink, barbed wire, GI wire and MS wire.</p>
-  <p><b>How it works:</b> 5 short sections with 12 short videos and two table pages. Watch each video to unlock the next page. At the end there is one short test of 10 questions. You can always go back to a page you have finished. It takes about 30 minutes.</p>`},
+  <p><b>How it works:</b> 5 short sections with 9 short videos and four reading pages. Watch each video to unlock the next page. At the end there is one short test of 10 questions. You can always go back to a page you have finished. It takes about 30 minutes.</p>`},
 
 { id:'1.1', section:1, title:'Length and area: one number each', video:'', html:`
   <p>Each conversion has <b>one number</b>. Multiply to go one way, divide to come back.</p>
@@ -252,7 +252,7 @@ const PAGES = [
     <li>Always write the mm size on orders and bills.</li>
   </ul>`},
 
-{ id:'2.1', section:2, title:'What a weldmesh sheet is', video:'X9QJ-HB8s4M', html:`
+{ id:'2.1', section:2, title:'What a weldmesh sheet is', video:'', html:`
   <ul>
     <li>A flat, stiff panel of steel wire, welded at every crossing.</li>
     <li>Fixed length: <b>12 ft</b> (3.66 m).</li>
@@ -260,7 +260,8 @@ const PAGES = [
     <li>Special widths: <b>3 ft and 6 ft</b>.</li>
   </ul>`},
 
-{ id:'2.2', section:2, title:'Sheet sizes and the item name', video:'', html:`
+// 2.2 is a reading page: the 2.1 video covers sheet sizes and the item name too
+{ id:'2.2', section:2, title:'Sheet sizes and the item name', noVideo:true, wait:5, html:`
   <div class="tablewrap"><table>
     <tr><th>Market name</th><th>Mesh</th></tr>
     <tr><td>25x25 or 1x1 pakka</td><td>25 x 25 mm</td></tr>
@@ -284,10 +285,14 @@ const PAGES = [
 { id:'2.3', section:2, title:'Diamond sheets', noVideo:true, wait:10, html:`
   <p>Diamond-pattern sheets are <b>bought from outside suppliers</b>. We do not make them.</p>
   <div class="tablewrap"><table>
-    <tr><th>Mesh</th><th>Wire</th></tr>
-    <tr><td>40 x 40</td><td>3.2 mm, 4.1 mm</td></tr>
-    <tr><td>65 x 65</td><td>3.2 mm, 4.1 mm, 5.5 mm</td></tr>
-  </table></div>`},
+    <tr><th>Diamond sheet sizes</th></tr>
+    <tr><td>40x40x3.2mm</td></tr>
+    <tr><td>40x40x4.1mm</td></tr>
+    <tr><td>65x65x3.2mm</td></tr>
+    <tr><td>65x65x4.1mm</td></tr>
+    <tr><td>65x65x5.5mm</td></tr>
+  </table></div>
+  <p>Available in <b>12x4 and 12x5 only</b> (12 ft long, 4 ft or 5 ft wide).</p>`},
 
 { id:'3.1', section:3, title:'What a roll is', video:'', html:`
   <ul>
@@ -297,10 +302,24 @@ const PAGES = [
     <li>Special heights: <b>2 and 6 ft</b>.</li>
   </ul>`},
 
-{ id:'3.2', section:3, title:'Normal roll sizes', video:'', html:`
+// 3.2 is a reading page: the 3.1 video covers roll sizes too
+{ id:'3.2', section:3, title:'Normal roll sizes', noVideo:true, wait:5, html:`
   <ul>
     <li>Our normal rolls run from <b>25x25x2.2mm</b> up to <b>65x65x3mm</b>.</li>
   </ul>
+  <div class="tablewrap"><table>
+    <tr><th>Normal sizes</th><th>Wire</th></tr>
+    <tr><td>25 x 25</td><td>2.2, 2.5, 2.8 mm</td></tr>
+    <tr><td>40 x 40</td><td>2.2, 2.5, 2.8 mm</td></tr>
+    <tr><td>40 x 20</td><td>2.2, 2.8 mm</td></tr>
+    <tr><td>65 x 65</td><td>2.2, 2.8 mm</td></tr>
+  </table></div>
+  <div class="tablewrap"><table>
+    <tr><th>Special sizes</th><th>Wire</th></tr>
+    <tr><td>65 x 40</td><td>2.2, 2.8 mm</td></tr>
+    <tr><td>65 x 65</td><td>2.5 mm</td></tr>
+    <tr><td>40 x 40</td><td>2.2/2 mm</td></tr>
+  </table></div>
   <p>3 ft rolls in 1 x 1 (40x40), 1 x 1/2 (40x20), 2 x 2 (65x65) and 25x25 come in 10g and 8g:</p>
   <div class="tablewrap"><table>
     <tr><th>Called</th><th>Actual wire</th></tr>
@@ -309,47 +328,67 @@ const PAGES = [
     <tr><td>8g, in other meshes</td><td>2.8 mm</td></tr>
   </table></div>`},
 
-{ id:'3.3', section:3, title:'Half-inch rolls (17 x 17) and lite', video:'', html:`
+{ id:'3.3', section:3, title:'Half-inch rolls (17 x 17)', video:'', html:`
   <ul>
-    <li>Half-inch means <b>17 x 17 mm</b> mesh.</li>
-    <li>Wire from 1 mm up to 2.3 mm.</li>
-    <li>A lite roll shows two wire sizes: the name size / the actual wire.</li>
-    <li>17x17x2mm/1.8mm is called <b>10g lite</b>.</li>
-    <li>17x17x2.3mm/2mm is called <b>8g lite</b>.</li>
-  </ul>`},
+    <li>Half-inch (1/2 x 1/2) means <b>17 x 17 mm</b> mesh.</li>
+    <li>In the market these rolls are called by gauge.</li>
+  </ul>
+  <div class="tablewrap"><table>
+    <tr><th>Size</th><th>Market name</th></tr>
+    <tr><td>17x17x1mm</td><td>1/2x1/2x16g</td></tr>
+    <tr><td>17x17x1.4mm</td><td>1/2x1/2x14g</td></tr>
+    <tr><td>17x17x1.6mm</td><td>1/2x1/2x12g lite</td></tr>
+    <tr><td>17x17x1.8mm</td><td>1/2x1/2x12g heavy</td></tr>
+    <tr><td>17x17x2mm</td><td>1/2x1/2x10g</td></tr>
+    <tr><td>17x17x2.2mm</td><td>1/2x1/2x8g</td></tr>
+    <tr><td>17x17x2mm/1.8mm</td><td>1/2x1/2x10g lite</td></tr>
+    <tr><td>17x17x2.2mm/2mm</td><td>1/2x1/2x8g lite</td></tr>
+  </table></div>`},
 
 { id:'3.4', section:3, title:'Rolls we distribute (not made by us)', noVideo:true, wait:5, html:`
   <p>We buy these rolls in and sell them on. We do not make them.</p>
   <div class="tablewrap"><table>
-    <tr><th>Mesh</th><th>Wire</th></tr>
-    <tr><td>12 x 12</td><td>1 mm, 1.6 mm</td></tr>
-    <tr><td>6 x 6</td><td>1 mm, 1.6 mm</td></tr>
-  </table></div>`},
+    <tr><th>Sizes</th></tr>
+    <tr><td>12mmx12mmx1mm</td></tr>
+    <tr><td>12mmx12mmx1.6mm</td></tr>
+    <tr><td>6mmx6mmx1mm</td></tr>
+    <tr><td>6mmx6mmx1.6mm</td></tr>
+  </table></div>
+  <p>Available heights: <b>3 ft, 4 ft and 5 ft only</b>.</p>`},
 
 { id:'4.1', section:4, title:'Chainlink', video:'', html:`
   <ul>
-    <li>Woven diamond mesh, sold in rolls.</li>
+    <li>Woven wire with <b>diamond-shaped gaps</b>, sold in rolls.</li>
     <li>Made in plain (sada) GI, Tata, Supreme or PVC, and customised to the customer's needs.</li>
+    <li>Standard: <b>GI / Tata / Supreme 65x65x2.5mm</b>. <b>PVC 65x65x3mm</b>.</li>
+    <li><b>Tata Ayush and Neel Chakra</b> (blue): double coated, with a GI coating and then a chemical coating that gives the blue colour. Extra corrosion resistant.</li>
+    <li>Wire sizes: <b>Tata Ayush</b> 2, 2.5 and 3 mm. <b>Neel Chakra</b> 2.5 mm only.</li>
   </ul>
   <div class="tablewrap"><table>
-    <tr><th>Type</th><th>Standard (mesh, wire)</th><th>By special request</th></tr>
-    <tr><td>Plain GI, Tata, Supreme</td><td>65 x 65, in 2.5, 3 or 4 mm</td><td>50 x 50, 40 x 40, 25 x 25 mesh</td></tr>
-    <tr><td>PVC</td><td>65 x 65, in 3 mm</td><td>4, 5 and 5.5 mm wire; the same mesh sizes as GI</td></tr>
-  </table></div>`},
+    <tr><th>Type</th><th>Gaps available</th><th>Wire thickness</th></tr>
+    <tr><td>GI / Tata / Supreme</td><td>110x110, 100x100, 90x90, 80x80, 75x75, 65x65, 50x50, 40x40, 25x25</td><td>2, 2.2, 2.5, 3, 4 mm</td></tr>
+    <tr><td>PVC</td><td>110x110, 100x100, 90x90, 80x80, 75x75, 65x65, 50x50, 40x40</td><td>3, 4, 5, 5.5 mm<br>(Tata PVC: 3 mm only)</td></tr>
+  </table></div>
+  <p><b>Two types:</b></p>
+  <ul>
+    <li><b>Normal rolled chainlink.</b></li>
+    <li><b>Compact chainlink:</b> folded flat, so it takes less space. Easier to store and transport.</li>
+  </ul>`},
 
 { id:'4.2', section:4, title:'Barbed wire', video:'', html:`
   <ul>
     <li>Two twisted line wires with sharp barbs at fixed gaps.</li>
-    <li>Made in plain (sada) GI, Tata and Supreme.</li>
-    <li>Sizes: <b>14x14</b> uses 14g wire (2 mm). <b>12x12</b> uses 12g wire (2.5 mm).</li>
-    <li>Sold as rolls, often by weight.</li>
-    <li>Used for farm, plot boundary and security fencing.</li>
+    <li>Made in plain (sada) GI, Tata, Supreme and blue <b>Tata Ayush</b>. Every make comes in 12x12 and 14x14.</li>
+    <li>Sizes: <b>12x12</b>: line wire and barbs both 12g (2.5 mm). <b>14x14</b>: both 14g (2 mm). 12x12 is the thicker, heavier wire.</li>
+    <li>Sold in <b>bundles of random weight</b>, billed in <b>kg</b>.</li>
+    <li>Used for farm, plot boundary and security fencing, often as rows on top of a chainlink fence.</li>
     <li>Always handle it with gloves.</li>
   </ul>`},
 
 { id:'5.1', section:5, title:'GI wire', video:'', html:`
   <ul>
     <li>GI means galvanised iron: steel wire with a zinc coat against rust.</li>
+    <li>GI wire is the <b>raw material for all our products</b>: sheet weldmesh, roll weldmesh, chainlink and barbed wire.</li>
     <li>A <b>bigger gauge number means a thinner wire</b>.</li>
   </ul>
   <div class="tablewrap"><table>
@@ -365,21 +404,26 @@ const PAGES = [
     <tr><td>22g</td><td>0.7 mm</td></tr>
     <tr><td>24g</td><td>0.56 mm</td></tr>
   </table></div>
-  <ul><li>Tata and Supreme GI wire is available from 1.6 mm to 4.8 mm.</li></ul>`},
-
-{ id:'5.2', section:5, title:'MS wire', video:'', html:`
   <ul>
-    <li>MS means mild steel: plain black wire with no coating.</li>
-    <li>Sold by weight in kg, in coils or bundles. Size by gauge or mm.</li>
-    <li>Used for tying, binding and fabrication.</li>
+    <li>Tata and Supreme GI wire is available from 1.6 mm to 4.8 mm.</li>
+    <li>GI wire is <b>billed in kg</b>. <b>8g to 14g</b>: bundles of random weight. <b>16g to 24g</b>: <b>25 kg bundles</b>.</li>
+    <li>Tata and Supreme: random weight bundles in every size.</li>
   </ul>`},
 
-{ id:'5.3', section:5, title:'First Wire: our new MS wire brand', video:'', html:`
+{ id:'5.2', section:5, title:'MS wire and First MS wire', video:'', html:`
+  <h3>MS wire</h3>
   <ul>
+    <li>MS means mild steel: plain wire with <b>no zinc coat</b>. It is dark in colour.</li>
+    <li>Used for tying, binding and fabrication.</li>
+    <li><b>Billed in kg.</b> Sold loose by the kg, or in <b>25 kg bundles</b>.</li>
+  </ul>
+  <h3>First MS wire <span style="color:#a64f08">(new)</span></h3>
+  <ul>
+    <li>Our own new brand of MS wire.</li>
     <li>Comes in a box of <b>5 bundles, 5 kg each</b>: 25 kg a box.</li>
     <li>A darker finish than other brands, even Tata.</li>
-    <li>Easy to sell: a customer can buy a single 5 kg bundle.</li>
     <li>The box and the inner cover keep moisture out, so the wire stays rust-free for longer.</li>
+    <li>Easy to sell: a customer can buy a single 5 kg bundle.</li>
   </ul>`}
 ];
 
@@ -410,6 +454,7 @@ const QUESTIONS = [
 {s:2,page:'2.2',q:'A customer asks for a 6 mm sheet. What is the actual wire?',o:['6 mm','5.2 mm','4.8 mm','4.4 mm'],a:2},
 {s:2,page:'2.2',q:'What is a "1x1 pakka" sheet?',o:['40 x 40','25 x 25','17 x 17','65 x 65'],a:1},
 {s:2,page:'2.3',q:'Diamond sheets are:',o:['made in our factory','a kind of roll','bought from outside','chainlink'],a:2},
+{s:2,page:'2.3',q:'Which sheet sizes do diamond sheets come in?',o:['12x4 and 12x5 only','12x3 and 12x6','Any size','12x4 only'],a:0},
 {s:2,page:'2.3',q:'Which wire sizes do we have in 65 x 65 diamond sheets?',o:['3.2 and 4.1 mm only','3.2, 4.1 and 5.5 mm','3 to 6.8 mm','5.5 mm only'],a:1},
 // Section 3
 {s:3,page:'3.1',q:'What is the common length of a roll?',o:['12 ft','50 ft','100 ft','25 ft'],a:1},
@@ -420,27 +465,40 @@ const QUESTIONS = [
 {s:3,page:'3.2',q:'In a 3 ft roll, what is the actual wire of 10g?',o:['3.2 mm','2.2 mm','2.8 mm','1.8 mm'],a:1},
 {s:3,page:'3.2',q:'In a 65x65 roll, what is the actual wire of 8g?',o:['4.0 mm','2.8 mm','3 mm','2.2 mm'],a:2},
 {s:3,page:'3.3',q:'What mesh is a half-inch roll?',o:['12x12','25x25','17x17','6x6'],a:2},
-{s:3,page:'3.3',q:'What is 17x17x2mm/1.8mm called?',o:['10g lite','8g lite','12g','10g heavy'],a:0},
-{s:3,page:'3.3',q:'Which roll is called 8g lite?',o:['17x17x2mm/1.8mm','17x17x2.3mm/2mm','17x17x1mm','12x12x1.6mm'],a:1},
-{s:3,page:'3.3',q:'In 17x17x2.3mm/2mm, what is the actual wire?',o:['2.3 mm','2 mm','17 mm','4.3 mm'],a:1},
+{s:3,page:'3.3',q:'A customer asks for 1/2x1/2x16g. What is it?',o:['17x17x1mm','17x17x1.6mm','17x17x2mm','16x16x1mm'],a:0},
+{s:3,page:'3.3',q:'A half-inch roll in 2 mm wire is called:',o:['1/2x1/2x10g','1/2x1/2x8g','1/2x1/2x12g heavy','1/2x1/2x14g'],a:0},
+{s:3,page:'3.3',q:'17x17x1.8mm is called:',o:['12g lite','12g heavy','10g','14g'],a:1},
+{s:3,page:'3.3',q:'What is 17x17x2.2mm/2mm called?',o:['8g lite','10g lite','8g','12g heavy'],a:0},
 {s:3,page:'3.4',q:'Which rolls do we distribute but not make?',o:['25x25','65x65','12x12 and 6x6','17x17'],a:2},
+{s:3,page:'3.4',q:'Which heights do the 12x12 and 6x6 rolls come in?',o:['3, 4 and 5 ft only','2 and 6 ft only','Any height','3 ft only'],a:0},
 // Section 4
-{s:4,page:'4.1',q:'What is standard chainlink in GI, Tata or Supreme?',o:['65 x 65 in 2.5, 3 or 4 mm','50 x 50 in 3 mm','40 x 40 only','25 x 25 only'],a:0},
+{s:4,page:'4.1',q:'What is standard GI / Tata / Supreme chainlink?',o:['65x65x2.5mm','50x50x3mm','40x40x2mm','25x25x4mm'],a:0},
 {s:4,page:'4.1',q:'What is standard PVC chainlink?',o:['65 x 65 in 4 mm','65 x 65 in 3 mm','50 x 50 in 3 mm','65 x 65 in 5.5 mm'],a:1},
-{s:4,page:'4.1',q:'A customer wants 40 x 40 chainlink. What do you say?',o:['We cannot make it','It is a special request','Only in PVC','It is always in stock'],a:1},
+{s:4,page:'4.1',q:'Which gap is NOT available in PVC chainlink?',o:['25x25','40x40','65x65','110x110'],a:0},
+{s:4,page:'4.1',q:'Which wire thicknesses does PVC chainlink come in?',o:['3, 4, 5 and 5.5 mm','2 and 2.2 mm','2.5 mm only','1 to 2 mm'],a:0},
+{s:4,page:'4.1',q:'What is special about Tata Ayush and Neel Chakra chainlink?',o:['Double coated (GI + chemical coat): extra corrosion resistant','It has a PVC coat','It is folded flat','It has bigger gaps'],a:0},
+{s:4,page:'4.1',q:'Which wire sizes does Neel Chakra chainlink come in?',o:['2.5 mm only','2, 2.5 and 3 mm','3 mm only','2 to 4 mm'],a:0},
+{s:4,page:'4.1',q:'Which wire size does Tata PVC chainlink come in?',o:['3 mm only','3, 4, 5 and 5.5 mm','2.5 mm only','4 mm only'],a:0},
+{s:4,page:'4.1',q:'Why is compact chainlink useful?',o:['It takes less space: easier to store and transport','It is stronger','It has a PVC coat','It has bigger gaps'],a:0},
 {s:4,page:'4.2',q:'Which barbed wire sizes do we sell?',o:['10x10 and 8x8','14x14 and 12x12','16x16 only','65x65'],a:1},
-{s:4,page:'4.2',q:'Which makes of barbed wire do we sell?',o:['PVC only','Plain GI, Tata and Supreme','MS only','Tata only'],a:1},
+{s:4,page:'4.2',q:'Which makes of barbed wire do we sell?',o:['PVC only','Plain GI, Tata, Supreme and Tata Ayush','MS only','Tata only'],a:1},
+{s:4,page:'4.2',q:'Which is the thicker barbed wire?',o:['12x12 (2.5 mm)','14x14 (2 mm)','Both are the same','It depends on the make'],a:0},
+{s:4,page:'4.2',q:'How is barbed wire billed?',o:['By kg: bundles are of random weight','Per roll, fixed price','Per metre','Per piece'],a:0},
 {s:4,page:'4.2',q:'What wire does 14x14 barbed wire use?',o:['14g, 2 mm','12g, 2.5 mm','14 mm','10g, 3.2 mm'],a:0},
 // Section 5
+{s:5,page:'5.1',q:'How is 18g plain GI wire sold?',o:['25 kg bundles, billed in kg','Random weight bundles','Per metre','Per roll, fixed price'],a:0},
+{s:5,page:'5.1',q:'How is 10g plain GI wire sold?',o:['Random weight bundles, billed in kg','25 kg bundles','Per metre','Per piece'],a:0},
+{s:5,page:'5.1',q:'What is the raw material for sheet weldmesh, roll weldmesh, chainlink and barbed wire?',o:['GI wire','MS wire','PVC sheet','Steel pipe'],a:0},
 {s:5,page:'5.1',q:'Which wire is thinner, 10g or 16g?',o:['10g','16g','They are the same','It depends on the brand'],a:1},
 {s:5,page:'5.1',q:'Which GI wire is thicker, 8g or 14g?',o:['8g','14g','They are the same','It depends on the brand'],a:0},
 {s:5,page:'5.1',q:'What is the diameter of 12g GI wire?',o:['3.2 mm','2.5 mm','2.0 mm','1.6 mm'],a:1},
 {s:5,page:'5.1',q:'What is 6g GI wire?',o:['5 mm / 4.8 mm','4.0 mm','6 mm','3.2 mm'],a:0},
 {s:5,page:'5.1',q:'What size range does Tata and Supreme GI wire come in?',o:['0.7 to 5 mm','1.6 to 4.8 mm','2.5 to 4 mm','1 to 2.3 mm'],a:1},
+{s:5,page:'5.2',q:'How is MS wire sold?',o:['Billed in kg: loose by the kg, or 25 kg bundles','Per metre','Per piece','Only in 5 kg boxes'],a:0},
 {s:5,page:'5.2',q:'What is MS wire?',o:['Zinc-coated wire','Plain black wire with no coating','PVC-coated wire','Used only for mesh'],a:1},
-{s:5,page:'5.3',q:'What is in a First Wire box?',o:['One 25 kg coil','5 bundles of 5 kg','10 bundles of 2.5 kg','5 bundles of 10 kg'],a:1},
-{s:5,page:'5.3',q:'How much does one First Wire bundle weigh?',o:['25 kg','5 kg','10 kg','1 kg'],a:1},
-{s:5,page:'5.3',q:'Why does First Wire stay rust-free for longer?',o:['It has a zinc coat','The box and inner cover keep moisture out','It has a PVC coat','The wire is thicker'],a:1}
+{s:5,page:'5.2',q:'What is in a First MS wire box?',o:['One 25 kg coil','5 bundles of 5 kg','10 bundles of 2.5 kg','5 bundles of 10 kg'],a:1},
+{s:5,page:'5.2',q:'How much does one First MS wire bundle weigh?',o:['25 kg','5 kg','10 kg','1 kg'],a:1},
+{s:5,page:'5.2',q:'Why does First MS wire stay rust-free for longer?',o:['It has a zinc coat','The box and inner cover keep moisture out','It has a PVC coat','The wire is thicker'],a:1}
 ];
 
 /* =====================================================================
@@ -453,10 +511,10 @@ const FAQ = [
 ['How do I change sq ft to sq m?','Divide by 10.764. To change sq m to sq ft, multiply by 10.764.'],
 ['How do I change inch to mm?','Multiply by 25.4. In the market we round 1 inch to 25 mm.'],
 ['How long is a sheet? How long is a roll?','A sheet is always 12 ft long. A roll is usually 50 ft (about 15 m).'],
-['What does "lite" mean?','The actual wire is thinner than the name. A lite roll shows both: name size / actual wire, for example 17x17x2.3mm/2mm.'],
+['What is 1/2x1/2x16g?','A half-inch roll, 17x17x1mm. Half-inch rolls are called by gauge: 14g = 1.4 mm, 12g lite = 1.6 mm, 12g heavy = 1.8 mm, 10g = 2 mm, 8g = 2.2 mm, 10g lite = 2mm/1.8mm, 8g lite = 2.2mm/2mm.'],
 ['Which is thinner, 10g or 16g?','16g. A bigger gauge number means a thinner wire.'],
 ['Do we make diamond sheets, or 12x12 and 6x6 rolls?','No. We buy them in from outside and sell them on.'],
-['What is in a First Wire box?','5 bundles of 5 kg each, 25 kg a box.']
+['What is in a First MS wire box?','5 bundles of 5 kg each, 25 kg a box.']
 ];
 
 /* =====================================================================
@@ -941,7 +999,7 @@ function showRef(){
       <button class="btn secondary" id="btnPrint" type="button">Download summary (PDF)</button>
     </div>
     <h1>Quick Reference</h1>
-    <input type="search" id="refSearch" placeholder="Search, for example: 1 x 1, lite, 3.281, First Wire" aria-label="Search the quick reference">
+    <input type="search" id="refSearch" placeholder="Search, for example: 1 x 1, 16g, 3.281, First MS wire" aria-label="Search the quick reference">
     <p class="muted" id="refCount" style="margin:8px 0 14px"></p>
     <div class="ref-card" data-ref><h3>Frequently asked questions</h3>
       <dl class="faq">${FAQ.map(([q,a]) => `<div data-faq><dt>${esc(q)}</dt><dd>${esc(a)}</dd></div>`).join('')}</dl></div>
