@@ -178,7 +178,7 @@ footer.ver{font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
    1. SETTINGS  —  change these
    ===================================================================== */
 const CONFIG = {
-  VERSION: '1.0.17',
+  VERSION: '1.0.18',
   COURSE_TITLE: 'Basic Product Training',
   COMPANY: 'Jain Wire Netting Corporation',
 
@@ -790,6 +790,21 @@ function loadYouTube(){
 function startVideo(p, alreadyDone){
   if(!alreadyDone) setNext(false, 'Watch the video to the end to continue');
   maxWatched = 0;
+  let lastTick = Date.now();
+  // How far a person may move ahead in one check: the real time that passed
+  // times the playback speed (so 1.5x and 2x still work), plus a small margin.
+  const allowedStep = () => {
+    const rate = (player && player.getPlaybackRate) ? (player.getPlaybackRate() || 1) : 1;
+    return (Date.now() - lastTick) / 1000 * rate + 1.5;
+  };
+  // Jumping ahead (dragging the bar, or skipping to the end) goes back to the furthest point watched.
+  const checkSkip = () => {
+    if(alreadyDone || !player || !player.getCurrentTime) return;
+    const t = player.getCurrentTime();
+    if(t > maxWatched + allowedStep()){ player.seekTo(maxWatched, true); }
+    else if(t > maxWatched){ maxWatched = t; }
+    lastTick = Date.now();
+  };
   loadYouTube().then(() => {
     if(PAGES[current] !== p) return;   // the person moved on while loading
     player = new YT.Player('ytPlayer', {
@@ -797,20 +812,22 @@ function startVideo(p, alreadyDone){
       playerVars: { rel:0, modestbranding:1, playsinline:1, disablekb:1, cc_load_policy:1 },
       events: {
         onStateChange: e => {
-          if(e.data === YT.PlayerState.ENDED) completePage(p);
+          if(e.data !== YT.PlayerState.ENDED) return;
+          if(alreadyDone) return;
+          // Only accept the end if the video was really watched up to it.
+          const dur = player.getDuration ? player.getDuration() : 0;
+          if(dur && maxWatched + allowedStep() < dur - 0.5){
+            player.seekTo(maxWatched, true); player.playVideo();
+            $('#navHint').textContent = 'Please watch the whole video. It continues from where you left off.';
+            return;
+          }
+          maxWatched = dur || maxWatched;
+          completePage(p);
         },
         onError: () => { $('#navHint').textContent = 'This video could not play. Please tell ' + CONFIG.CONTACT_NAME + '.'; }
       }
     });
-    // Discourage skipping ahead on a first watch: jump back if they seek forward.
-    if(!alreadyDone){
-      playerTimer = setInterval(() => {
-        if(!player || !player.getCurrentTime) return;
-        const t = player.getCurrentTime();
-        if(t > maxWatched + 2){ player.seekTo(maxWatched, true); }
-        else if(t > maxWatched){ maxWatched = t; }
-      }, 500);
-    }
+    if(!alreadyDone) playerTimer = setInterval(checkSkip, 250);
   });
 }
 
