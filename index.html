@@ -6,7 +6,7 @@
 <title>Basic Product Training · Jain Wire</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Great+Vibes&family=Pinyon+Script&family=Oswald:wght@500;600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Alex+Brush&family=Great+Vibes&family=Oswald:wght@500;600&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
 /* =====================================================================
    COLOURS AND BASIC LOOK
@@ -178,7 +178,7 @@ footer.ver{font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
    1. SETTINGS  —  change these
    ===================================================================== */
 const CONFIG = {
-  VERSION: '1.1.4',
+  VERSION: '1.1.5',
   COURSE_TITLE: 'Basic Product Training',
   COMPANY: 'Jain Wire Netting Corporation',
 
@@ -959,7 +959,7 @@ function drawCertificate(date){
   const data = { name: nameCase(me.name), course: CONFIG.COURSE_TITLE, dept: me.dept, date };
   const draw = () => paintCertificate(c, data, certImgs);
   draw();                                           // draw now, and again once the fonts and logos are ready
-  const fonts = document.fonts ? Promise.all(['400 60px "Pinyon Script"', '400 60px "Great Vibes"', '700 60px Cinzel', '600 30px Cinzel', '600 60px Oswald',
+  const fonts = document.fonts ? Promise.all(['400 60px "Alex Brush"', '400 60px "Great Vibes"', '700 60px Cinzel', '600 30px Cinzel', '600 60px Oswald',
     '400 30px "Public Sans"', '500 30px "Public Sans"', '600 30px "Public Sans"'].map(f => document.fonts.load(f).catch(() => {}))) : Promise.resolve();
   Promise.all([loadCertImages(), fonts]).then(draw);
 }
@@ -969,7 +969,7 @@ function drawCertificate(date){
 function paintCertificate(c, d, imgs){
   const x = c.getContext('2d'), W = c.width, H = c.height;
   const NAVY = '#0C2248', RED = '#D81E26', INK = '#1D2328', MUTED = '#5A6470', PAPER = '#FBF7EE';
-  const SCRIPT = '"Pinyon Script", "Great Vibes", "TeX Gyre Chorus", "Brush Script MT", cursive';
+  const SCRIPT = '"Alex Brush", "Great Vibes", "TeX Gyre Chorus", "Brush Script MT", cursive';
   const SERIF = 'Cinzel, "Trajan Pro", Georgia, serif';
   const COND = 'Oswald, "Arial Narrow", Arial, sans-serif';
   const SANS = '"Public Sans", Arial, sans-serif';
